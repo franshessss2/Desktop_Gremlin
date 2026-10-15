@@ -158,8 +158,8 @@ public static class ConfigManager
 
         Random rng = new Random();
 
-        double offsetX = rng.Next(-Settings.SpawnDistance, Settings.SpawnDistance + 1);
-        double offsetY = rng.Next(-Settings.SpawnDistance, Settings.SpawnDistance + 1);
+        double offsetX = RandomRanges.NextOffset(rng, Settings.SpawnDistance);
+        double offsetY = RandomRanges.NextOffset(rng, Settings.SpawnDistance);
 
         double left = centerX + offsetX;
         double top = centerY + offsetY;

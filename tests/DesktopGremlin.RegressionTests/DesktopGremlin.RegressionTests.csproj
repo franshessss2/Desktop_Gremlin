@@ -9,6 +9,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Drawing" Condition="'$(TargetFramework)' == 'net48'" />
+    <Compile Include="../../Desktop_Gremlin/ConfigManagers/RandomRanges.cs" Link="RandomRanges.cs" />
     <Compile Include="../../Desktop_Gremlin/ConfigManagers/ConfigNumbers.cs" Link="ConfigNumbers.cs" />
     <Compile Include="../../Desktop_Gremlin/ConfigManagers/ConfigSettings.cs" Link="ConfigSettings.cs" />
     <Compile Include="../../Desktop_Gremlin/Frames/CharacterPack.cs" Link="CharacterPack.cs" />

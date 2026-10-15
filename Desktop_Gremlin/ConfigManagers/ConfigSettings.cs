@@ -12,13 +12,13 @@ public static class ConfigSettings
             ["START_CHAR"] = val => Settings.StartingChar = val,
             ["FOOD_SPAWN"] = val => Settings.FoodSpawn = val,
             ["COMPANION_CHAR"] = val => QuirkSettings.CompanionChar = val,
-            ["SPRITE_FRAMERATE"] = val => { if (ConfigNumbers.TryParseInt(val, out int v) && v > 0) Settings.FrameRate = v; },
+            ["SPRITE_FRAMERATE"] = val => { if (ConfigNumbers.TryParseInt(val, out int v) && v > 0 && v <= Settings.MaximumFrameRate) Settings.FrameRate = v; },
             ["FOLLOW_RADIUS"] = val => { if (ConfigNumbers.TryParseDouble(val, out double v) && v >= 0) Settings.FollowRadius = v; },
-            ["MAX_INTERVAL"] = val => { if (ConfigNumbers.TryParseInt(val, out int v)) Settings.RandomMaxInterval = v; },
-            ["MIN_INTERVAL"] = val => { if (ConfigNumbers.TryParseInt(val, out int v)) Settings.RandomMinInterval = v; },
-            ["RANDOM_MOVE_DISTANCE"] = val => { if (ConfigNumbers.TryParseInt(val, out int v)) Settings.MoveDistance = v; },
+            ["MAX_INTERVAL"] = val => { if (ConfigNumbers.TryParseInt(val, out int v) && v > 0) Settings.RandomMaxInterval = v; },
+            ["MIN_INTERVAL"] = val => { if (ConfigNumbers.TryParseInt(val, out int v) && v > 0) Settings.RandomMinInterval = v; },
+            ["RANDOM_MOVE_DISTANCE"] = val => { if (ConfigNumbers.TryParseInt(val, out int v) && v >= 0) Settings.MoveDistance = v; },
             ["ALLOW_RANDOM_ACTIONS"] = val => { if (bool.TryParse(val, out bool v)) Settings.AllowRandomness = v; },
-            ["SLEEP_TIME"] = val => { if (ConfigNumbers.TryParseInt(val, out int v)) Settings.SleepTime = v; },
+            ["SLEEP_TIME"] = val => { if (ConfigNumbers.TryParseInt(val, out int v) && v > 0 && v <= Settings.MaximumSleepSeconds) Settings.SleepTime = v; },
             ["ALLOW_FOOTSTEP_SOUNDS"] = val => { if (bool.TryParse(val, out bool v)) Settings.FootStepSounds = v; },
             ["AMMO"] = val => { if (ConfigNumbers.TryParseInt(val, out int v)) Settings.Ammo = v; },
             ["ALLOW_COLOR_HOTSPOT"] = val => { if (bool.TryParse(val, out bool v)) Settings.AllowColoredHotSpot = v; },
@@ -49,7 +49,7 @@ public static class ConfigSettings
             ["RANDOMIZE_SPAWN"] = val => { if (bool.TryParse(val, out bool v)) Settings.RandomizeSpawn = v; },
             ["STRAIGHT_MOVE"] = val => { if (bool.TryParse(val, out bool v)) Settings.StraightLine = v; },
             ["CLICK_THROUGH"] = val => { if (bool.TryParse(val, out bool v)) Settings.ClickThrough = v; },
-            ["SPAWN_DISTANCE"] = val => { if (ConfigNumbers.TryParseInt(val, out int v)) Settings.SpawnDistance = v; },
+            ["SPAWN_DISTANCE"] = val => { if (ConfigNumbers.TryParseInt(val, out int v) && v >= 0) Settings.SpawnDistance = v; },
             ["COMPANION_SCALE"] = val => { if (ConfigNumbers.TryParseScale(val, out double v)) QuirkSettings.CompanionScale = v; },
             ["COMPANION_FOLLOW"] = val => { if (ConfigNumbers.TryParseInt(val, out int v)) QuirkSettings.CompanionFollow = v; },
             ["STRAIGHT_LINE"] = val => { if (bool.TryParse(val, out bool v)) Settings.StraightLine = v; },
@@ -73,5 +73,9 @@ public static class ConfigSettings
                 setter(value);
             }
         }
+        // MIN_INTERVAL is authoritative. Resolve the complete file before enforcing
+        // the pair, so file order and repeated loads cannot change the result.
+        if (Settings.RandomMaxInterval < Settings.RandomMinInterval)
+            Settings.RandomMaxInterval = Settings.RandomMinInterval;
     }
 }

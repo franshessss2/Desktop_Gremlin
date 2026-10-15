@@ -28,6 +28,9 @@ ALLOW_COLOR_HOTSPOT = true //Makes the Hotspot visible in case you resize the im
 SHOW_TASKBAR = true //Show the Icon in the Task bar
 ```
 # Linux
+
+[Timer and random configuration limits](docs/safe-scheduling-config.md) · [Contribution workflow](AGENTS.md)
+
 | Ver| Download Link |
 |-----------|---------------|
 | Linux Version | [Download](https://github.com/iluvgirlswithglasses/linux-desktop-gremlin) Thank you [@iluvgirlwithglasses](https://github.com/iluvgirlswithglasses), written in Python|

@@ -72,6 +72,7 @@
     <Compile Include="Frames\AnimationStates.cs" />
     <Compile Include="ConfigManagers\ConfigManager.cs" />
     <Compile Include="ConfigManagers\ConfigNumbers.cs" />
+    <Compile Include="ConfigManagers\RandomRanges.cs" />
     <Compile Include="ConfigManagers\ConfigSettings.cs" />
     <Compile Include="Frames\CurrentFrames.cs" />
     <Compile Include="Quirks\Companion\Companion.xaml.cs">
