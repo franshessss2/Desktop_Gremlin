@@ -153,10 +153,17 @@ namespace DesktopGremlin
                 PlayDirectionalAnimation(dir);
             }
         }
+        public void Stop()
+        {
+            _followTimer.Stop();
+            _currentFood = null;
+            _currentSpeed = 0;
+        }
+
         private void StopFollowing()
         {
             MediaManager.PlaySound("eat.wav", "Misc");
-            _followTimer.Stop();
+            Stop();
             _gremlinState.UnlockState();
             _gremlinState.SetState("Sleeping");
         }

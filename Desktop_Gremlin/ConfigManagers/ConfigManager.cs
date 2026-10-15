@@ -172,10 +172,11 @@ public static class ConfigManager
         window.Left = left;
         window.Top = top;
     }
-    public class AppConfig
+    public class AppConfig : IDisposable
     {
         private MainWindow _gremlin;
         private NotifyIcon _trayIcon;
+        private bool _disposed;
         public AnimationStates _states;
         public AppConfig(MainWindow gremlin, AnimationStates states)
         {
@@ -235,6 +236,20 @@ public static class ConfigManager
                 _gremlin.ToggleGravity();  
             };
             _trayIcon.ContextMenuStrip = menu;
+        }
+
+        public void Dispose()
+        {
+            if (_disposed) return;
+            _disposed = true;
+            if (_trayIcon != null)
+            {
+                _trayIcon.Visible = false;
+                var menu = _trayIcon.ContextMenuStrip;
+                _trayIcon.ContextMenuStrip = null;
+                _trayIcon.Dispose();
+                menu?.Dispose();
+            }
         }
 
         public void CloseApp()
