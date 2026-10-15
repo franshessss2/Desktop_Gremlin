@@ -91,6 +91,10 @@
     <Compile Include="MainWindowController\MovementController.cs" />
     <Compile Include="MainWindowController\MovementBounds.cs" />
     <Compile Include="MainWindowController\MonitorWorkArea.cs" />
+    <Compile Include="Frames\CharacterPack.cs" />
+    <Compile Include="Frames\SpriteSheetLayout.cs" />
+    <Compile Include="Frames\SpriteSheetStore.cs" />
+    <Compile Include="Frames\PackDiagnostics.cs" />
     <Compile Include="Frames\SpriteManager.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>

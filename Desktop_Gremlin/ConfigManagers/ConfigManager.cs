@@ -16,12 +16,19 @@ public static class ConfigManager
     public static void LoadMasterConfig()
     {
         string path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config.txt");
-        if (!File.Exists(path))
+        try
         {
-            MainWindow.ErrorClose("Cannot find the Main config.txt", "Missing config.txt", true);
-            return;
-        };
-        ConfigSettings.LoadMaster(path);
+            ConfigSettings.LoadMaster(path);
+        }
+        catch (IOException exception)
+        {
+            throw new CharacterPackException("Cannot read the main config: " + path + "\n" + exception.Message
+                + "\nExtract the complete app archive before launching it.");
+        }
+        catch (UnauthorizedAccessException exception)
+        {
+            throw new CharacterPackException("Cannot read the main config: " + path + "\n" + exception.Message);
+        }
     }
 
     public static bool TryParseDoubleInvariant(string input, out double result)

@@ -11,6 +11,9 @@
     <Reference Include="System.Drawing" Condition="'$(TargetFramework)' == 'net48'" />
     <Compile Include="../../Desktop_Gremlin/ConfigManagers/ConfigNumbers.cs" Link="ConfigNumbers.cs" />
     <Compile Include="../../Desktop_Gremlin/ConfigManagers/ConfigSettings.cs" Link="ConfigSettings.cs" />
+    <Compile Include="../../Desktop_Gremlin/Frames/CharacterPack.cs" Link="CharacterPack.cs" />
+    <Compile Include="../../Desktop_Gremlin/Frames/SpriteSheetLayout.cs" Link="SpriteSheetLayout.cs" />
+    <Compile Include="../../Desktop_Gremlin/Frames/PackDiagnostics.cs" Link="PackDiagnostics.cs" />
     <Compile Include="../../Desktop_Gremlin/Frames/FrameCounts.cs" Link="FrameCounts.cs" />
     <Compile Include="../../Desktop_Gremlin/GlobalVar/SpriteVariables.cs" Link="SpriteVariables.cs" />
     <Compile Include="../../Desktop_Gremlin/MainWindowController/MovementBounds.cs" Link="MovementBounds.cs" />

@@ -77,6 +77,7 @@ namespace DesktopGremlin
         {
             ConfigManager.LoadMasterConfig();
             _frameCounts.LoadConfigChar(Settings.StartingChar);
+            SpriteImage.Source = SpriteManager.Initialize(_frameCounts);
             ConfigManager.ApplyXamlSettings(this);
             _timerController = new TimerController(this, _gremlinState);
             _animationController = new AnimationController(this, _gremlinState, _currentFrames, _frameCounts, SpriteImage, _rng);
@@ -89,7 +90,6 @@ namespace DesktopGremlin
             {
                 _keyboardController = new KeyboardController(this, _gremlinState, _currentFrames, _frameCounts, _rng);
             }
-            SpriteImage.Source = new CroppedBitmap();
             _gremlinState.LockState();
             _animationController.Start();
             _timerController.Start();
@@ -329,10 +329,22 @@ namespace DesktopGremlin
                 _companionInstance.Close();
                 return;
             }
-            _companionInstance = new Companion();
-            _companionInstance.SetMainGremlin(this);
-            _companionInstance.Closed += (s, args) => _companionInstance = null;
-            _companionInstance.Show();
+            try
+            {
+                var companion = new Companion();
+                companion.SetMainGremlin(this);
+                companion.Closed += (s, args) => _companionInstance = null;
+                _companionInstance = companion;
+                companion.Show();
+            }
+            catch (CharacterPackException exception)
+            {
+                if (PackDiagnostics.ReportOnce(exception.Message))
+                {
+                    ErrorClose(exception.Message + "\nThe main gremlin will keep running.\nDiagnostics: "
+                        + PackDiagnostics.LogPath, "Companion pack unavailable", false);
+                }
+            }
         }
         public void TriggerRandomMove()
         {

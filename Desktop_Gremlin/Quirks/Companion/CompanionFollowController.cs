@@ -52,6 +52,11 @@ namespace DesktopGremlin
             MovementBounds workArea = MonitorWorkArea.GetFor(_companion);
             _companion.Top = workArea.Fall(_companion.Top, _spriteImage.ActualHeight, Settings.SvGravity);
         }
+        public void Stop()
+        {
+            _gravityTimer.Stop();
+        }
+
         public void ToggleGravity()
         {
             if (Settings.EnableGravity)

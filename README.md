@@ -119,3 +119,20 @@ matching pack together. The separate Options GUI source is not included here.
 
 See [maintenance and validation notes](docs/maintenance.md) for root causes,
 regression checks, manual display checks and unresolved reports.
+
+## Character-pack failures
+
+A main character needs readable `config.txt` and `Actions/idle.png`, positive
+`WIDTH`, `HEIGHT`, `COLUMN` and `IDLE`, and enough sheet pixels for its declared
+idle animation. Missing optional animations fall back to that verified idle
+image. A missing/broken companion is rejected without closing the main gremlin.
+
+Pack failures are logged once per distinct error per process to
+`%LOCALAPPDATA%\DesktopGremlin\diagnostics.log`. `ALLOW_ERROR_MESSAGES=false`
+suppresses dialogs, but diagnostics are still attempted. Fix the exact path or
+config field named in the log using files from the same character pack; then
+restart the app, or retry summoning a repaired companion. Legacy companion packs
+without `COLUMN` keep their ten-column layout.
+
+See [character-pack reliability](docs/character-pack-reliability.md) for causes,
+error behavior, automated coverage and limitations.

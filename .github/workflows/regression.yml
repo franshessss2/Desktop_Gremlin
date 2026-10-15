@@ -28,3 +28,6 @@ jobs:
       - name: Build the WPF app
         if: runner.os == 'Windows'
         run: msbuild Desktop_Gremlin.sln /m /p:Configuration=Release
+      - name: Exercise real WPF assets, startup failures and companion isolation
+        if: runner.os == 'Windows'
+        run: dotnet run --project tests/DesktopGremlin.WindowsTests -c Release

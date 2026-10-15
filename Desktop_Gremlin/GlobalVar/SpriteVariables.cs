@@ -53,6 +53,7 @@ public static class QuirkSettings
     public static double CurrentItemAcceleration { get; set; } = 1.0;
     public static string CompanionChar { get; set; } = "";
     public static double CompanionScale { get; set; } = 1.0;
+    public static int CompanionColumn { get; set; } = 10;
     public static int CompanionHeight { get; set; } = 0;    
     public static int CompanionWidth { get; set; } = 0;   
     public static int CompanionFollow { get; set; } = 0;

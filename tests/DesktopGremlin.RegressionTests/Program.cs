@@ -4,7 +4,7 @@ using System.IO;
 using System.Threading;
 using DesktopGremlin;
 
-internal static class Program
+internal static partial class Program
 {
     private static int _assertions;
     private static readonly string TestCharacter = "Regression_" + Guid.NewGuid().ToString("N");
@@ -31,6 +31,8 @@ internal static class Program
                 TestCharacterConfig();
                 Console.WriteLine("PASS config loaders: " + culture);
             }
+            TestPackValidation();
+            Console.WriteLine("PASS character-pack validation and failure handling");
             TestMonitorBounds();
             Console.WriteLine("PASS monitor geometry");
             Console.WriteLine("PASS: " + _assertions + " regression assertions");
@@ -142,8 +144,8 @@ internal static class Program
 
         File.WriteAllText(Path.Combine(CharacterDirectory, "config.txt"),
             "SCALE=0\nWIDTH=0\nHEIGHT=-1\nCOLUMN=0\nIDLE=-10\n");
-        frames.LoadConfigChar(TestCharacter);
-        Equal(0.5, Settings.SpriteSize, "Reject zero character scale");
+        ExpectPackFailure(() => frames.LoadConfigChar(TestCharacter), "WIDTH");
+        Equal(0.5, Settings.SpriteSize, "Invalid pack does not mutate character scale");
         Equal(100, Settings.FrameWidth, "Reject zero frame width");
         Equal(120, Settings.FrameHeight, "Reject negative frame height");
         Equal(10, Settings.SpriteColumn, "Reject zero columns");
@@ -191,18 +193,5 @@ internal static class Program
     {
         _assertions++;
         if (!condition) throw new InvalidOperationException(message);
-    }
-}
-
-// The production frame loader only uses MainWindow to report missing files.
-// A missing test fixture must fail immediately rather than showing a WPF dialog.
-namespace DesktopGremlin
-{
-    public static class MainWindow
-    {
-        public static void ErrorClose(string message, string title, bool close)
-        {
-            throw new InvalidOperationException(title + ": " + message);
-        }
     }
 }
