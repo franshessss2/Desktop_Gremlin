@@ -90,8 +90,8 @@ namespace DesktopGremlin
         public void InitializeConfig()
         {
             ConfigManager.LoadMasterConfig();
-            _clickThrough = Settings.ClickThrough;
             _frameCounts.LoadConfigChar(Settings.StartingChar);
+            _clickThrough = Settings.ClickThrough;
             SpriteImage.Source = SpriteManager.Initialize(_frameCounts);
             ConfigManager.ApplyXamlSettings(this);
             _timerController = new TimerController(this, _gremlinState);

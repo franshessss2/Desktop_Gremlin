@@ -108,7 +108,8 @@ matching pack together. The separate Options GUI source is not included here.
 
 - To summon a companion, set `COMPANION_CHAR` to an installed companion folder,
   enable keyboard controls, click the gremlin to focus it and press **5**.
-  Press **F1** for keyboard help. Click-through mode must be off to click the sprite.
+  Press **F1** for keyboard help. Disable [click-through](docs/click-through.md)
+  through the tray menu to click the sprite.
 - To keep a character still, disable random actions and cursor following.
   Gravity and keyboard input can still move it.
 - To resize a character, use a positive `SCALE` in its character config, or
@@ -136,6 +137,3 @@ without `COLUMN` keep their ten-column layout.
 
 See [character-pack reliability](docs/character-pack-reliability.md) for causes,
 error behavior, automated coverage and limitations.
-
-See [click-through startup and controls](docs/click-through.md) for the config
-setting, tray checkmark, keyboard shortcut and Windows verification steps.
