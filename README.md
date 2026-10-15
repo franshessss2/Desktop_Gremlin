@@ -136,3 +136,6 @@ without `COLUMN` keep their ten-column layout.
 
 See [character-pack reliability](docs/character-pack-reliability.md) for causes,
 error behavior, automated coverage and limitations.
+
+See [click-through startup and controls](docs/click-through.md) for the config
+setting, tray checkmark, keyboard shortcut and Windows verification steps.

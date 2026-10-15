@@ -20,9 +20,9 @@ namespace DesktopGremlin
         [DllImport("user32.dll")]
         static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
 
-        private int _windowTrasnparent = 0x20;
-        private int _wsxLayer = 0x80000;
-        private int _exlLayaer = -20;
+        private const int WsExTransparent = 0x20;
+        private const int WsExLayered = 0x80000;
+        private const int GwlExStyle = -20;
         private Random _rng = new Random();
 
         private AnimationStates _gremlinState = new AnimationStates();
@@ -57,25 +57,40 @@ namespace DesktopGremlin
         public void ToggleClickThrough()
         {
             _clickThrough = !_clickThrough;
+            ApplyClickThrough();
+            _config?.RefreshClickThroughMenu();
+        }
 
+        public bool IsClickThroughEnabled => _clickThrough;
+
+        private void ApplyClickThrough()
+        {
             IntPtr hwnd = new WindowInteropHelper(this).Handle;
-            int style = GetWindowLong(hwnd, _exlLayaer);
-            style |= _wsxLayer;
+            // A constructor-time toggle is applied once WPF creates the native window.
+            if (hwnd == IntPtr.Zero) return;
+            int style = GetWindowLong(hwnd, GwlExStyle) | WsExLayered;
 
             if (_clickThrough)
             {
-                style = style | _windowTrasnparent;
+                style |= WsExTransparent;
             }
             else
             {
-                style = style & (~_windowTrasnparent);
+                style &= ~WsExTransparent;
             }
-            SetWindowLong(hwnd, _exlLayaer, style);
+            SetWindowLong(hwnd, GwlExStyle, style);
+        }
+
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+            ApplyClickThrough();
         }
 
         public void InitializeConfig()
         {
             ConfigManager.LoadMasterConfig();
+            _clickThrough = Settings.ClickThrough;
             _frameCounts.LoadConfigChar(Settings.StartingChar);
             SpriteImage.Source = SpriteManager.Initialize(_frameCounts);
             ConfigManager.ApplyXamlSettings(this);

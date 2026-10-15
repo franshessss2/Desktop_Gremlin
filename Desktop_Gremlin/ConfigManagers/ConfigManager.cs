@@ -177,6 +177,7 @@ public static class ConfigManager
         private MainWindow _gremlin;
         private NotifyIcon _trayIcon;
         public AnimationStates _states;
+        private ToolStripMenuItem _clickThroughItem;
         public AppConfig(MainWindow gremlin, AnimationStates states)
         {
 
@@ -234,6 +235,8 @@ public static class ConfigManager
             {
                 _gremlin.ToggleGravity();  
             };
+            _clickThroughItem = (ToolStripMenuItem)enableClickThrough;
+            RefreshClickThroughMenu();
             _trayIcon.ContextMenuStrip = menu;
         }
 
@@ -241,6 +244,10 @@ public static class ConfigManager
         {
             _states.PlayOutro();
             MediaManager.PlaySound("outro.wav", Settings.StartingChar);
+        }
+        public void RefreshClickThroughMenu()
+        {
+            _clickThroughItem.Checked = _gremlin.IsClickThroughEnabled;
         }
         private void ForceClose()
         {
