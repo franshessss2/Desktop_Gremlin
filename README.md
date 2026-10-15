@@ -1,5 +1,8 @@
 
 # Desktop Gremlin 
+
+Separate character shortcuts and optional random startup: [startup selection instructions](docs/character-startup.md).
+
 <img width="925" height="436" alt="image" src="https://github.com/user-attachments/assets/7f3f1631-b2d2-4b8e-adc4-b287dd81d784" />
 <br>
 
@@ -33,8 +36,6 @@ SHOW_TASKBAR = true //Show the Icon in the Task bar
 | Linux Version | [Download](https://github.com/iluvgirlswithglasses/linux-desktop-gremlin) Thank you [@iluvgirlwithglasses](https://github.com/iluvgirlswithglasses), written in Python|
 
 # Links
-
-Separate character shortcuts and optional random startup: [startup selection instructions](docs/character-startup.md).
 
 **Note:** If your browser falsely detects a file, please try using a different browser.
 

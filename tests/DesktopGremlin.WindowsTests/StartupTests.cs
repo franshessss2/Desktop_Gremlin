@@ -47,7 +47,7 @@ internal static partial class Program
         }
         finally { if (Directory.Exists(rejectedPath)) Directory.Delete(rejectedPath, true); }
 
-        string main = "ALLOW_ERROR_MESSAGES=false\nSTART_CHAR=Missing_Config\nRANDOM_CHARACTER=true\nSPRITE_FRAMERATE=60\n";
+        string main = "ALLOW_ERROR_MESSAGES=false\nSTART_CHAR=Missing_Config\nRANDOM_CHARACTER=true\nSPRITE_FRAMERATE=60\nSLEEP_TIME=500\n";
         File.WriteAllText(MainConfig, main);
         var window = new MainWindow(new[] { "--character", Character });
         Assert(Settings.StartingChar == Character && Settings.FrameWidth == 2 && Settings.SpriteSize == 0.8,

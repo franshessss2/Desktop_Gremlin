@@ -27,9 +27,9 @@ internal static partial class Program
             WritePack("Gremlins");
             WritePack("Companions");
             TestStartupFailure();
+            TestCharacterStartupIntegration();
             TestSpriteDecoding();
             TestCompanionFailureIsolation(app);
-            TestCharacterStartupIntegration();
             Console.WriteLine("PASS: " + _assertions + " Windows WPF assertions");
             return 0;
         }
