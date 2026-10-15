@@ -28,6 +28,13 @@ jobs:
       - name: Build the WPF app
         if: runner.os == 'Windows'
         run: msbuild Desktop_Gremlin.sln /m /p:Configuration=Release
+      - name: Verify the Gold Ship repair against the pinned release archive
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: |
+          $fixture = Join-Path $env:RUNNER_TEMP 'goldship-repaired'
+          ./tests/Test-GoldShipPackRepair.ps1 -FixturePath $fixture
+          "GREMLIN_GOLDSHIP_RELEASE_DIR=$fixture" | Out-File $env:GITHUB_ENV -Encoding utf8 -Append
       - name: Exercise real WPF assets, startup failures and companion isolation
         if: runner.os == 'Windows'
         run: dotnet run --project tests/DesktopGremlin.WindowsTests -c Release
