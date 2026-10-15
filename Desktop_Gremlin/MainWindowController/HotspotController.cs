@@ -1,75 +1,63 @@
-﻿using System.Windows.Controls;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace DesktopGremlin
 {
     public class HotspotController
     {
-        private MainWindow _window;
-        private Border _leftHotspot;
-        private Border _rightHotspot;
-        private Border _topHotspot;
-        private Border _leftDownHotspot;
-        private Border _rightDownHotspot;
-        private bool _hotspotVisible = false;
-        private bool _hotspotDisable = false;
-
-        public HotspotController(MainWindow window, Border leftHotspot, Border rightHotspot,Border topHotspot, Border leftDownHotspot, Border rightDownHotspot)
+        private readonly Border[] _regions;
+        private static readonly Brush[] Palette =
         {
-            _window = window;
-            _leftHotspot = leftHotspot;
-            _rightHotspot = rightHotspot;
-            _topHotspot = topHotspot;
-            _leftDownHotspot = leftDownHotspot;
-            _rightDownHotspot = rightDownHotspot;
+            Brushes.Red, Brushes.Blue, Brushes.Purple, Brushes.Yellow, Brushes.Orange
+        };
+        private static readonly Brush Uncolored = CreateUncoloredBrush();
+
+        public bool IsDisabled { get; private set; }
+        public bool ColorsRequested { get; private set; }
+
+        public HotspotController(MainWindow window, Border leftHotspot, Border rightHotspot,
+            Border topHotspot, Border leftDownHotspot, Border rightDownHotspot)
+        {
+            _regions = new[] { leftHotspot, rightHotspot, topHotspot, leftDownHotspot, rightDownHotspot };
+            IsDisabled = Settings.DisableHotspots;
+            ColorsRequested = Settings.AllowColoredHotSpot;
+            ApplyState();
         }
 
         public void ToggleHotspots()
         {
-            _hotspotDisable = !_hotspotDisable;
-            _leftHotspot.IsEnabled = !_leftHotspot.IsEnabled;
-            _rightHotspot.IsEnabled = !_rightHotspot.IsEnabled;
-            _topHotspot.IsEnabled = !_topHotspot.IsEnabled;
-
-            if (_hotspotDisable)
-            {
-                _leftHotspot.Background = new SolidColorBrush(Colors.Transparent);
-                _rightHotspot.Background = new SolidColorBrush(Colors.Transparent);
-                _topHotspot.Background = new SolidColorBrush(Colors.Transparent);
-                _leftDownHotspot.Background = new SolidColorBrush(Colors.Transparent);
-                _rightDownHotspot.Background = new SolidColorBrush(Colors.Transparent);
-            }
-            else
-            {
-                var noColor = (SolidColorBrush)new BrushConverter().ConvertFrom("#01000000");
-                _leftHotspot.Background = noColor;
-                _rightHotspot.Background = noColor;
-                _topHotspot.Background = noColor;
-                _leftDownHotspot.Background = noColor;
-                _rightDownHotspot.Background = noColor;
-            }
+            IsDisabled = !IsDisabled;
+            Settings.DisableHotspots = IsDisabled;
+            ApplyState();
         }
 
         public void ShowHotspots()
         {
-            _hotspotVisible = !_hotspotVisible;
-            if (_hotspotVisible)
+            ColorsRequested = !ColorsRequested;
+            Settings.AllowColoredHotSpot = ColorsRequested;
+            ApplyState();
+        }
+
+        private void ApplyState()
+        {
+            for (int i = 0; i < _regions.Length; i++)
             {
-                _leftHotspot.Background = new SolidColorBrush(Colors.Red);
-                _rightHotspot.Background = new SolidColorBrush(Colors.Blue);
-                _topHotspot.Background = new SolidColorBrush(Colors.Purple);
-                _leftDownHotspot.Background = new SolidColorBrush(Colors.Green);
-                _rightDownHotspot.Background = new SolidColorBrush(Colors.Yellow);
+                Border region = _regions[i];
+                if (region == null) continue;
+                region.IsEnabled = !IsDisabled;
+                // Disabled overlays must let the underlying sprite receive input.
+                region.IsHitTestVisible = !IsDisabled;
+                region.Background = IsDisabled ? Brushes.Transparent
+                    : ColorsRequested ? Palette[i] : Uncolored;
             }
-            else
-            {
-                var noColor = (SolidColorBrush)new BrushConverter().ConvertFrom("#01000000");
-                _leftHotspot.Background = noColor;
-                _rightHotspot.Background = noColor;
-                _topHotspot.Background = noColor;
-                _leftDownHotspot.Background = noColor;
-                _rightDownHotspot.Background = noColor;
-            }
+        }
+
+        private static Brush CreateUncoloredBrush()
+        {
+            // Retain the existing almost-transparent hit surface while enabled.
+            var brush = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0));
+            brush.Freeze();
+            return brush;
         }
     }
 }
