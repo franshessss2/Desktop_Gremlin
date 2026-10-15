@@ -174,9 +174,9 @@ public static class ConfigManager
     }
     public class AppConfig : IDisposable
     {
+        private bool _disposed;
         private MainWindow _gremlin;
         private NotifyIcon _trayIcon;
-        private bool _disposed;
         public AnimationStates _states;
         public AppConfig(MainWindow gremlin, AnimationStates states)
         {
@@ -185,6 +185,20 @@ public static class ConfigManager
             _states = states;
             SetupTrayIcon();
         }
+        public void Dispose()
+        {
+            if (_disposed) return;
+            _disposed = true;
+            if (_trayIcon != null)
+            {
+                _trayIcon.Visible = false;
+                var menu = _trayIcon.ContextMenuStrip;
+                _trayIcon.ContextMenuStrip = null;
+                _trayIcon.Dispose();
+                menu?.Dispose();
+            }
+        }
+
         public void SetupTrayIcon()
         {
             _trayIcon = new NotifyIcon();
@@ -236,20 +250,6 @@ public static class ConfigManager
                 _gremlin.ToggleGravity();  
             };
             _trayIcon.ContextMenuStrip = menu;
-        }
-
-        public void Dispose()
-        {
-            if (_disposed) return;
-            _disposed = true;
-            if (_trayIcon != null)
-            {
-                _trayIcon.Visible = false;
-                var menu = _trayIcon.ContextMenuStrip;
-                _trayIcon.ContextMenuStrip = null;
-                _trayIcon.Dispose();
-                menu?.Dispose();
-            }
         }
 
         public void CloseApp()
