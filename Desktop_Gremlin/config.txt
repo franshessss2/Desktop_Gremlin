@@ -1,5 +1,6 @@
 ﻿//General Settings
 START_CHAR = Cafe
+RANDOM_CHARACTER = false
 LANGUAGE_DIFF = true
 ENABLE_KEYBOARD = true
 ALLOW_ERROR_MESSAGES = true

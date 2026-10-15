@@ -64,6 +64,10 @@ The F1 help showed `4` for companion summoning while the keyboard handler uses
 installed-pack requirements. This is a documentation correction, not a change
 to the companion binding.
 
+## Startup character selection: #70 and part of #88
+
+See [character startup](character-startup.md) for explicit shortcut selection, opt-in random startup, validation, precedence and restart behavior. This addresses startup selection only; the song/jukebox request remains separate.
+
 ## Automated checks
 
 The dependency-free regression executable links the production config loaders,

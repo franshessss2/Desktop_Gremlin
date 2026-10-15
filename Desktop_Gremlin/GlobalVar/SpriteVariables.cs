@@ -41,6 +41,7 @@
     public static bool AllowCache { get; set; } = false;
     public static bool AllowKeyboard { get; set; } = false;
     public static bool UseWPF { get; set; } = false; 
+    public static bool RandomCharacter { get; set; } = false;
     public static bool RandomizeSpawn { get; set; } = false;
     public static bool ClickThrough { get; set; } = false;
     public static bool StraightLine { get; set; } = true;

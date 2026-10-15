@@ -1,5 +1,8 @@
 
 # Desktop Gremlin 
+
+Separate character shortcuts and optional random startup: [startup selection instructions](docs/character-startup.md).
+
 <img width="925" height="436" alt="image" src="https://github.com/user-attachments/assets/7f3f1631-b2d2-4b8e-adc4-b287dd81d784" />
 <br>
 

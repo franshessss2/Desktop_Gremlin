@@ -9,6 +9,7 @@ public static class ConfigSettings
         var settingsMap = new Dictionary<string, Action<string>>(StringComparer.OrdinalIgnoreCase)
         {
             ["LANGUAGE_DIFF"] = val => { if (bool.TryParse(val, out bool v)) Settings.LanguageDiff = v; },
+            ["RANDOM_CHARACTER"] = val => { if (bool.TryParse(val, out bool v)) Settings.RandomCharacter = v; },
             ["START_CHAR"] = val => Settings.StartingChar = val,
             ["FOOD_SPAWN"] = val => Settings.FoodSpawn = val,
             ["COMPANION_CHAR"] = val => QuirkSettings.CompanionChar = val,
