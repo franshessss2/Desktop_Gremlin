@@ -25,11 +25,11 @@ internal static partial class Program
         try
         {
             WritePack("Gremlins");
+            TestClickThroughStartup();
             WritePack("Companions");
             TestStartupFailure();
             TestSpriteDecoding();
             TestCompanionFailureIsolation(app);
-            TestClickThroughStartup();
             Console.WriteLine("PASS: " + _assertions + " Windows WPF assertions");
             return 0;
         }
