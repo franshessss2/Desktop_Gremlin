@@ -13,7 +13,8 @@ Character and companion keys also used culture-sensitive uppercasing; lowercase
 The master loader and frame loader now share `ConfigNumbers`. An ungrouped number
 may use one decimal point or comma; grouping/currency formats, mixed separators,
 NaN and infinity are rejected. A single comma is always a decimal separator:
-`1,234` means `1.234`, never `1234`. Invalid settings preserve their previous value.
+`1,234` means `1.234`, never `1234`. Invalid master settings preserve their previous value. Required character-pack
+metadata is now validated before loading; see [character-pack reliability](character-pack-reliability.md).
 Scales and timer/movement divisors must be positive; volume must be between zero
 and one. Optional animation counts may still be zero. Configuration key casing is
 invariant. `LANGUAGE_DIFF` remains accepted for compatibility but no longer

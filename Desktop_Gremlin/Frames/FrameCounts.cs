@@ -1,6 +1,4 @@
-﻿using DesktopGremlin;
-using System;
-using System.IO;
+﻿using System.IO;
 public class FrameCounts
 {
     public int LeftFire { get; set; } = 0;
@@ -39,15 +37,10 @@ public class FrameCounts
 
     public void LoadConfigChar(string character)
     {
-        string path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"SpriteSheet", "Gremlins",character, "config.txt");
+        string path = Path.Combine(CharacterPack.GetDirectory("Gremlins", character), "config.txt");
+        string[] lines = CharacterPack.ReadConfig(path, false);
 
-        if (!File.Exists(path))
-        {
-            MainWindow.ErrorClose("Cannot find the SpriteSheet config.txt", "Missing config.txt", true);
-            return;
-        }
-
-        foreach (var line in File.ReadAllLines(path))
+        foreach (var line in lines)
         {
             if (string.IsNullOrWhiteSpace(line) || !line.Contains("="))
                 continue;
@@ -115,15 +108,11 @@ public class FrameCounts
     }
     public void LoadConfigCompanion(string character)
     {
-        string path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SpriteSheet","Companions" ,character, "config.txt");
+        string path = Path.Combine(CharacterPack.GetDirectory("Companions", character), "config.txt");
+        string[] lines = CharacterPack.ReadConfig(path, true);
+        QuirkSettings.CompanionColumn = 10;
 
-        if (!File.Exists(path))
-        {
-            MainWindow.ErrorClose("Cannot find the SpriteSheet config.txt", "Missing config.txt", true);
-            return;
-        }
-
-        foreach (var line in File.ReadAllLines(path))
+        foreach (var line in lines)
         {
             if (string.IsNullOrWhiteSpace(line) || !line.Contains("="))
                 continue;
@@ -176,6 +165,7 @@ public class FrameCounts
                 case "JUMPSCARE": JumpScare = intValue; break;
                 case "WIDTH": QuirkSettings.CompanionWidth = intValue; break;
                 case "HEIGHT": QuirkSettings.CompanionHeight = intValue; break;
+                case "COLUMN": QuirkSettings.CompanionColumn = intValue; break;
             }
         }
     }
