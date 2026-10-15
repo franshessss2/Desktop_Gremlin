@@ -40,6 +40,7 @@ namespace DesktopGremlin
 
         private Target _currentFood;
         private bool _clickThrough = false;
+        private bool _resourcesReleased;
 
         public struct POINT
         {
@@ -52,6 +53,31 @@ namespace DesktopGremlin
             InitializeComponent();
             InitializeConfig();
             MediaManager.PlaySound("intro.wav", Settings.StartingChar);
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            try { ReleaseResources(); }
+            finally { base.OnClosed(e); }
+        }
+
+        private void ReleaseResources()
+        {
+            if (_resourcesReleased) return;
+            _resourcesReleased = true;
+            _animationController?.Stop();
+            _timerController?.Stop();
+            _movementController?.StopRandomMove();
+            _keyboardController?.Dispose();
+            _foodFollower?.Stop();
+
+            Target food = _currentFood;
+            _currentFood = null;
+            food?.Close();
+            Companion companion = _companionInstance;
+            _companionInstance = null;
+            companion?.Close();
+            _config?.Dispose();
         }
 
         public void ToggleClickThrough()

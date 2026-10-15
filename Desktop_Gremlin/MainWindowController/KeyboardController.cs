@@ -7,7 +7,7 @@ using System.Windows.Threading;
 using static ConfigManager;
 
 
-    public class KeyboardController
+    public class KeyboardController : IDisposable
     {
         private readonly MainWindow _gremlin;
         private readonly AnimationStates _gremlinState;
@@ -16,6 +16,7 @@ using static ConfigManager;
         private readonly Random _rng;
 
         private bool _isKeyboardMoving = false;
+        private bool _disposed;
         private DispatcherTimer _keyboardMoveTimer;
         private double _keyboardMoveSpeedX = 0;
         private double _keyboardMoveSpeedY = 0;
@@ -261,6 +262,17 @@ using static ConfigManager;
                     _currentFrames.UpRight, _frameCounts.UpRight, _gremlin.SpriteImage);
             }                     
         }
+        public void Dispose()
+        {
+            if (_disposed) return;
+            _disposed = true;
+            StopAllMovement();
+            _keyboardControlEnabled = false;
+            _gremlin.KeyDown -= Gremlin_KeyDown;
+            _gremlin.KeyUp -= Gremlin_KeyUp;
+            _keyboardMoveTimer.Tick -= KeyboardMove_Tick;
+        }
+
         public void StopAllMovement()
         {
             _keyboardMoveSpeedX = 0;

@@ -42,6 +42,8 @@ https://github.com/Kritzkingvoid/Desktop_Gremlin/releases/download/4.3/TracenAca
 
 ## Trickal
 
+[Main-window resource cleanup](docs/window-resource-cleanup.md) explains close behavior and regression coverage.
+
 | Character | Version | Download Link |
 |-----------|---------|---------------|
 |Speaki Pet| 4.3 |[Download](https://github.com/Kritzkingvoid/Desktop_Gremlin/releases/download/4.3/TracenAcademy_Speaki_v4.3.zip) |

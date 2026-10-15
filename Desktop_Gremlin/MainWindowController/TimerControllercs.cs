@@ -27,6 +27,12 @@ namespace DesktopGremlin
                 _gravityTimer.Start();
             }
         }
+        public void Stop()
+        {
+            _idleTimer.Stop();
+            _gravityTimer.Stop();
+        }
+
         private void InitializeTimers()
         {
             _idleTimer = new DispatcherTimer();
