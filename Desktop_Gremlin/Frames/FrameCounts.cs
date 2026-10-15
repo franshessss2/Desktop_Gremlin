@@ -1,6 +1,5 @@
 ﻿using DesktopGremlin;
 using System;
-using System.Globalization;
 using System.IO;
 public class FrameCounts
 {
@@ -58,23 +57,24 @@ public class FrameCounts
             if (parts.Length != 2)
                 continue;
 
-            string key = parts[0].Trim();
+            string key = parts[0].Trim().ToUpperInvariant();
             string value = parts[1].Trim();
 
             if(key == "SCALE")
             {
-                if (TryParseDoubleInvariant(value, out double spriteScale))
+                if (ConfigNumbers.TryParseScale(value, out double spriteScale))
                 {
                     Settings.SpriteSize = spriteScale;
                 }
             }
 
-            if (!int.TryParse(value, out int intValue))
+            if (!ConfigNumbers.TryParseInt(value, out int intValue) || intValue < 0
+                || ((key == "WIDTH" || key == "HEIGHT" || key == "COLUMN") && intValue == 0))
             {
                 continue;
             }
 
-            switch (key.ToUpper())
+            switch (key)
             {
                 case "INTRO": Intro = intValue; break;
                 case "IDLE": Idle = intValue; break;
@@ -133,15 +133,16 @@ public class FrameCounts
             if (parts.Length != 2)
                 continue;
 
-            string key = parts[0].Trim();
+            string key = parts[0].Trim().ToUpperInvariant();
             string value = parts[1].Trim();
 
-            if (!int.TryParse(value, out int intValue))
+            if (!ConfigNumbers.TryParseInt(value, out int intValue) || intValue < 0
+                || ((key == "WIDTH" || key == "HEIGHT" || key == "COLUMN") && intValue == 0))
             {
                 continue;
             }
 
-            switch (key.ToUpper())
+            switch (key)
             {
                 case "INTRO": Intro = intValue; break;
                 case "IDLE": Idle = intValue; break;
@@ -180,13 +181,6 @@ public class FrameCounts
     }
     public static bool TryParseDoubleInvariant(string input, out double result)
     {
-        if (Settings.LanguageDiff)
-        {
-            return double.TryParse(input, System.Globalization.NumberStyles.Any, CultureInfo.InvariantCulture, out result);
-        }
-        else
-        {
-            return double.TryParse(input, out result);
-        }
+        return ConfigNumbers.TryParseDouble(input, out result);
     }
 }

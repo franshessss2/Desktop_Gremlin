@@ -136,6 +136,7 @@ namespace DesktopGremlin
 
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            _movementController.StopRandomMove();
             _timerController.ResetIdleTimer();
             _gremlinState.UnlockState();
             _gremlinState.SetState("Grab");
@@ -165,16 +166,7 @@ namespace DesktopGremlin
             _gremlinState.SetState("FollowItem");
             _gremlinState.LockState();
 
-            double screenWidth = SystemParameters.WorkArea.Width;
-            double screenHeight = SystemParameters.WorkArea.Height;
-
-            double randomLeft = _rng.NextDouble() * (screenWidth - Settings.FrameWidth) + SystemParameters.WorkArea.Left;
-            double randomTop = _rng.NextDouble() * (screenHeight - Settings.FrameHeight) + SystemParameters.WorkArea.Top;
-            _currentFood = new Target
-            {
-                Left = randomLeft,
-                Top = randomTop
-            };
+            SpawnFoodOnCurrentMonitor();
             _currentFood.Show();
             StartFollowingFood();
         }
@@ -269,18 +261,19 @@ namespace DesktopGremlin
             _gremlinState.SetState("FollowItem");
             _gremlinState.LockState();
 
-            double screenWidth = SystemParameters.WorkArea.Width;
-            double screenHeight = SystemParameters.WorkArea.Height;
-
-            double randomLeft = _rng.NextDouble() * (screenWidth - Settings.FrameWidth) + SystemParameters.WorkArea.Left;
-            double randomTop = _rng.NextDouble() * (screenHeight - Settings.FrameHeight) + SystemParameters.WorkArea.Top;
-            _currentFood = new Target
-            {
-                Left = randomLeft,
-                Top = randomTop
-            };
+            SpawnFoodOnCurrentMonitor();
             _currentFood.Show();
             StartFollowingFood();
+        }
+
+        private void SpawnFoodOnCurrentMonitor()
+        {
+            MovementBounds workArea = MonitorWorkArea.GetFor(this);
+            _currentFood = new Target();
+            _currentFood.Left = workArea.ClampLeft(workArea.Left + _rng.NextDouble()
+                * Math.Max(0, workArea.Right - workArea.Left - _currentFood.Width), _currentFood.Width);
+            _currentFood.Top = workArea.ClampTop(workArea.Top + _rng.NextDouble()
+                * Math.Max(0, workArea.Bottom - workArea.Top - _currentFood.Height), _currentFood.Height);
         }
 
         public void TriggerLeftEmote()
