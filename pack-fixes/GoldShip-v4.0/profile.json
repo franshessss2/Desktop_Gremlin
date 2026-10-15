@@ -1,0 +1,68 @@
+{
+  "name": "GoldShip-v4.0",
+  "source_release": "https://github.com/Kritzkingvoid/Desktop_Gremlin/releases/tag/v4.0",
+  "source_archive_sha256": "0fa410c9bc983e39efb6cb905c7cefa65bf5000a4aa677b14ee7b5baa711be0d",
+  "config": "SpriteSheet/Gremlins/GoldShip/config.txt",
+  "geometry": {
+    "WIDTH": 350,
+    "HEIGHT": 350,
+    "COLUMN": 10
+  },
+  "settings": {
+    "HOVER": {
+      "before": 30,
+      "after": 25
+    },
+    "SLEEP": {
+      "before": 255,
+      "after": 50
+    },
+    "OUTRO": {
+      "before": 68,
+      "after": 35
+    },
+    "GRAB": {
+      "before": 40,
+      "after": 60
+    },
+    "RUNIDLE": {
+      "before": 41,
+      "after": 138
+    }
+  },
+  "sprites": [
+    {
+      "path": "SpriteSheet/Gremlins/GoldShip/Actions/hover.png",
+      "sha256": "83e392a26e2f1cc6acc440014b2df4f64a1eaf5d5604ead0a3cc941579fc296a"
+    },
+    {
+      "path": "SpriteSheet/Gremlins/GoldShip/Actions/sleep.png",
+      "sha256": "3593174aa7f8294ad38fcd8bb6c16fc35ba09972eb2011cbc1548d43295d1048"
+    },
+    {
+      "path": "SpriteSheet/Gremlins/GoldShip/Actions/outro.png",
+      "sha256": "5a17df96379af0455dea6ead3cc2dc09a08e27a7e21e977934bc47a97bb01192"
+    },
+    {
+      "path": "SpriteSheet/Gremlins/GoldShip/Actions/grab.png",
+      "sha256": "8787d93d74d1e246f1225685ad657e9b1430e3c58d99b4981318de256982e86f"
+    },
+    {
+      "path": "SpriteSheet/Gremlins/GoldShip/Actions/runIdle.png",
+      "sha256": "27c3a82c7e560d6c31c71dacb88518aa3b5cc0ef3aaa99d46e399618e505ecb5"
+    },
+    {
+      "path": "SpriteSheet/Gremlins/GoldShip/Emotes/emote4.png",
+      "sha256": "cbfe6c3823b8da579aed6bd6db6f3c3268c8a075054df7e7f2a09e61e393ea25"
+    }
+  ],
+  "sound": {
+    "path": "Sounds/GoldShip/emote4.wav",
+    "file": "emote4.wav",
+    "sha256": "865dc3a9df56c7c095709b2645cc1e35e59840bfb3076912d7287c68e69a985f",
+    "source_release": "https://github.com/Kritzkingvoid/Desktop_Gremlin/releases/tag/v2.5",
+    "source_archive_sha256": "8dbe6493663cf7fc20e55885c6d26d02bd762c53a336c656c5f53c44b415cca3",
+    "source_entry": "GoldShip_v2.5/Sounds/GoldShip/emote1.wav",
+    "matching_art_source": "GoldShip_v2.5/SpriteSheet/Gremlins/GoldShip/emote1.png"
+  }
+}

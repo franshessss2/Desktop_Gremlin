@@ -34,6 +34,8 @@ SHOW_TASKBAR = true //Show the Icon in the Task bar
 
 # Links
 
+Gold Ship hover flicker, frozen sleep, and missing fourth-emote sound in the Tracen v4.0 pack: [verified pack repair and instructions](docs/gold-ship-v4.0-repair.md).
+
 **Note:** If your browser falsely detects a file, please try using a different browser.
 
 **Older release archives may still contain locale-dependent configuration bugs. The updated source accepts ungrouped decimal values using either `0.5` or `0,5`, regardless of Windows language or `LANGUAGE_DIFF`. Rebuilding this source does not update previously downloaded executables.**
