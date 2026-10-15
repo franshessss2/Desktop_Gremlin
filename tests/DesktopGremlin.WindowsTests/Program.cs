@@ -137,7 +137,8 @@ internal static class Program
         }
 
         string[] diagnostics = File.ReadAllLines(PackDiagnostics.LogPath);
-        Assert(diagnostics.Count(line => line.Contains(Path.Combine(actions, "hover.png"))) == 1,
+        Assert(diagnostics.Count(line => line.StartsWith("[", StringComparison.Ordinal)
+            && line.Contains(Path.Combine(actions, "hover.png"))) == 1,
             "Repeated missing sheets produce one diagnostic per session across cache modes");
         Assert(!diagnostics.Any(line => line.Contains(Path.Combine(actions, "pat.png"))),
             "Intentionally disabled animation does not produce a missing-file diagnostic");
