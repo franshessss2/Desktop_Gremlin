@@ -16,7 +16,14 @@ public static class CharacterPack
             throw new CharacterPackException("No character is selected for " + rootFolder
                 + ". Set START_CHAR or COMPANION_CHAR to an installed pack folder in the main config.txt.");
         }
-        return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SpriteSheet", rootFolder, character);
+        try
+        {
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SpriteSheet", rootFolder, character);
+        }
+        catch (ArgumentException exception)
+        {
+            throw new CharacterPackException("Invalid character folder in START_CHAR / COMPANION_CHAR. " + exception.Message);
+        }
     }
 
     public static string[] ReadConfig(string path, bool companion)
@@ -31,6 +38,14 @@ public static class CharacterPack
             throw ReadFailure(path, exception.Message);
         }
         catch (UnauthorizedAccessException exception)
+        {
+            throw ReadFailure(path, exception.Message);
+        }
+        catch (ArgumentException exception)
+        {
+            throw ReadFailure(path, exception.Message);
+        }
+        catch (NotSupportedException exception)
         {
             throw ReadFailure(path, exception.Message);
         }

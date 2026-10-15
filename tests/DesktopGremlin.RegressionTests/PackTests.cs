@@ -38,6 +38,7 @@ internal static partial class Program
         string directoryAsFile = Path.Combine(CharacterDirectory, "directory-config");
         Directory.CreateDirectory(directoryAsFile);
         ExpectPackFailure(() => CharacterPack.ReadConfig(directoryAsFile, false), directoryAsFile);
+        ExpectPackFailure(() => CharacterPack.ReadConfig(path + "\0", false), "Cannot read character config");
 
         string companionPath = Path.Combine(CompanionDirectory, "config.txt");
         File.WriteAllText(companionPath, "WIDTH=2\nHEIGHT=2\nIDLE=4\nCOLUMN=2\n");
