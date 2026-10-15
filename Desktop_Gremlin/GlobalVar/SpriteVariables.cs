@@ -1,15 +1,18 @@
 ﻿public static class Settings
 {
+    // DispatcherTimer uses a signed 32-bit millisecond interval.
+    public const int MaximumSleepSeconds = int.MaxValue / 1000;
+    public const int MaximumFrameRate = 1000;
     public static int SpriteColumn { get; set; } = 0;
     public static int FrameRate { get; set; } = 60;
     public static int FrameWidth { get; set; } = 0;
     public static int FrameHeight { get; set; } = 0;
     public static int FrameWidthJs { get; set; } = 0;
     public static int FrameHeightJs { get; set; } = 0;
-    public static int RandomMinInterval { get; set; } = 0;
-    public static int RandomMaxInterval { get; set; } = 0;
+    public static int RandomMinInterval { get; set; } = 30;
+    public static int RandomMaxInterval { get; set; } = 40;
     public static int MoveDistance { get; set; } = 0;
-    public static int SleepTime { get; set; } = 0;
+    public static int SleepTime { get; set; } = 500;
     public static int Ammo { get; set; } = 0;
     public static int CurrentAmmo { get; set; } = 0;
     public static int CurrendIdle { get; set; } = 0;

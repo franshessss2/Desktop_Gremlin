@@ -35,6 +35,8 @@ internal static partial class Program
             Console.WriteLine("PASS character-pack validation and failure handling");
             TestMonitorBounds();
             Console.WriteLine("PASS monitor geometry");
+            TestSchedulingConfig();
+            Console.WriteLine("PASS scheduling configuration");
             Console.WriteLine("PASS: " + _assertions + " regression assertions");
             return 0;
         }
