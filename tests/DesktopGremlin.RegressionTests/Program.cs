@@ -31,6 +31,8 @@ internal static partial class Program
                 TestCharacterConfig();
                 Console.WriteLine("PASS config loaders: " + culture);
             }
+            TestCharacterStartup();
+            Console.WriteLine("PASS character startup selection");
             TestPackValidation();
             Console.WriteLine("PASS character-pack validation and failure handling");
             TestMonitorBounds();

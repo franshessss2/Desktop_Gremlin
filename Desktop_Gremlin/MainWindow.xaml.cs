@@ -47,8 +47,14 @@ namespace DesktopGremlin
             public int Y;
         }
 
-        public MainWindow()
+        private readonly string[] _startupArguments;
+        public string RestartArguments => CharacterSelection.RestartArguments(_startupArguments);
+
+        public MainWindow() : this(new string[0]) { }
+
+        public MainWindow(string[] startupArguments)
         {
+            _startupArguments = (string[])startupArguments.Clone();
             InitializeComponent();
             InitializeConfig();
             MediaManager.PlaySound("intro.wav", Settings.StartingChar);
@@ -76,6 +82,7 @@ namespace DesktopGremlin
         public void InitializeConfig()
         {
             ConfigManager.LoadMasterConfig();
+            Settings.StartingChar = StartupCharacter.Select(_startupArguments, _rng);
             _frameCounts.LoadConfigChar(Settings.StartingChar);
             SpriteImage.Source = SpriteManager.Initialize(_frameCounts);
             ConfigManager.ApplyXamlSettings(this);

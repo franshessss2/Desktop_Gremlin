@@ -34,6 +34,8 @@ SHOW_TASKBAR = true //Show the Icon in the Task bar
 
 # Links
 
+Separate character shortcuts and optional random startup: [startup selection instructions](docs/character-startup.md).
+
 **Note:** If your browser falsely detects a file, please try using a different browser.
 
 **Older release archives may still contain locale-dependent configuration bugs. The updated source accepts ungrouped decimal values using either `0.5` or `0,5`, regardless of Windows language or `LANGUAGE_DIFF`. Rebuilding this source does not update previously downloaded executables.**

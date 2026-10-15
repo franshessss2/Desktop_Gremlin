@@ -10,7 +10,7 @@ using System.Windows.Threading;
 using DesktopGremlin;
 using DesktopGremlin.Quirks.Companion;
 
-internal static class Program
+internal static partial class Program
 {
     private static readonly string Character = "WpfRegression_" + Guid.NewGuid().ToString("N");
     private static readonly string BasePath = AppDomain.CurrentDomain.BaseDirectory;
@@ -29,6 +29,7 @@ internal static class Program
             TestStartupFailure();
             TestSpriteDecoding();
             TestCompanionFailureIsolation(app);
+            TestCharacterStartupIntegration();
             Console.WriteLine("PASS: " + _assertions + " Windows WPF assertions");
             return 0;
         }

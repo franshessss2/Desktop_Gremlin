@@ -188,11 +188,11 @@ public static class ConfigManager
         {
             _trayIcon = new NotifyIcon();
             
-            if (File.Exists($"SpriteSheet/Gremlins/{Settings.StartingChar}/Misc/" +
-                $"{Settings.StartingChar}.ico"))
+            string iconPath = Path.Combine(CharacterPack.GetDirectory("Gremlins", Settings.StartingChar),
+                "Misc", Settings.StartingChar + ".ico");
+            if (File.Exists(iconPath))
             {
-                _trayIcon.Icon = new Icon($"SpriteSheet/Gremlins/{Settings.StartingChar}/Misc/" +
-                $"{Settings.StartingChar}.ico");
+                _trayIcon.Icon = new Icon(iconPath);
             }
             else
             {
@@ -249,7 +249,10 @@ public static class ConfigManager
         private void RestartApp()
         {
             string exePath = Process.GetCurrentProcess().MainModule.FileName;
-            Process.Start(exePath);
+            Process.Start(new ProcessStartInfo(exePath, _gremlin.RestartArguments)
+            {
+                WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory
+            });
             System.Windows.Application.Current.Shutdown();
         }
     }

@@ -9,7 +9,7 @@ namespace Desktop_Gremlin
             base.OnStartup(e);
             try
             {
-                MainWindow = new DesktopGremlin.MainWindow();
+                MainWindow = new DesktopGremlin.MainWindow(e.Args);
                 MainWindow.Show();
             }
             catch (CharacterPackException exception)
