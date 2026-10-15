@@ -209,13 +209,18 @@ namespace DesktopGremlin
             MediaManager.PlaySound(mp3, Settings.StartingChar);
             _gremlinState.LockState();
         }
+        public bool HotspotsDisabled => _hotspotController.IsDisabled;
+        public bool HotspotColorsRequested => _hotspotController.ColorsRequested;
+
         public void HotSpot()
         {
             _hotspotController.ToggleHotspots();
+            _config?.RefreshHotspotMenu();
         }
         public void ShowHotSpot()
         {
             _hotspotController.ShowHotspots();
+            _config?.RefreshHotspotMenu();
         }
         public void ToggleGravity()
         {

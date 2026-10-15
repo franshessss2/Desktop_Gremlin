@@ -48,35 +48,6 @@ public static class ConfigManager
         Border RightDownHotspot = window.FindName("RightDownHotspot") as Border;
         Border TopHotspot = window.FindName("TopHotspot") as Border;
         Image SpriteImage = window.FindName("SpriteImage") as Image;
-        if (LeftHotspot != null)
-        {
-            if (Settings.AllowColoredHotSpot && !Settings.DisableHotspots)
-            {
-                LeftHotspot.Background = new SolidColorBrush(Colors.Red);
-                LeftDownHotspot.Background = new SolidColorBrush(Colors.Yellow);
-                RightHotspot.Background = new SolidColorBrush(Colors.Blue);
-                RightDownHotspot.Background = new SolidColorBrush(Colors.Orange);
-                TopHotspot.Background = new SolidColorBrush(Colors.Purple);
-            }
-            else
-            {
-                var noColor = (SolidColorBrush)new BrushConverter().ConvertFrom("#01000000");
-                LeftHotspot.Background = noColor;
-                LeftDownHotspot.Background = noColor;
-                RightHotspot.Background = noColor;
-                RightDownHotspot.Background = noColor;
-                TopHotspot.Background = noColor;
-            }
-
-            if (Settings.DisableHotspots)
-            {
-                LeftHotspot.IsEnabled = false;
-                LeftDownHotspot.IsEnabled = false;
-                RightDownHotspot.IsEnabled = false;
-                RightHotspot.IsEnabled = false;
-                TopHotspot.IsEnabled = false;
-            }
-        }
         window.ShowInTaskbar = Settings.ShowTaskBar;
         if (Settings.FakeTransparent)
         {
@@ -176,6 +147,8 @@ public static class ConfigManager
     {
         private MainWindow _gremlin;
         private NotifyIcon _trayIcon;
+        private ToolStripMenuItem _disableHotspotsItem;
+        private ToolStripMenuItem _showHotspotsItem;
         public AnimationStates _states;
         public AppConfig(MainWindow gremlin, AnimationStates states)
         {
@@ -208,24 +181,13 @@ public static class ConfigManager
             menu.Items.Add("Restart", null, (s, e) => RestartApp());
             menu.Items.Add(new ToolStripSeparator());
 
-            var disableHotspotsItem = menu.Items.Add("Disable Hotspots");
-            var showHotspotsItem = menu.Items.Add("Show Hotspots");
+            _disableHotspotsItem = (ToolStripMenuItem)menu.Items.Add("Disable Hotspots");
+            _showHotspotsItem = (ToolStripMenuItem)menu.Items.Add("Show Hotspots");
             var enableGravity = menu.Items.Add("Toggle Gravity");
             var enableClickThrough = menu.Items.Add("Toggle Click Through");
-            var disableItem = disableHotspotsItem as ToolStripMenuItem;
-            var showItem = showHotspotsItem as ToolStripMenuItem;
-            var gravity = enableGravity as ToolStripMenuItem; 
-            disableItem.Click += (s, e) =>
-            {
-                disableItem.Checked = !disableItem.Checked;
-                _gremlin.HotSpot();
-            };
-
-            showItem.Click += (s, e) =>
-            {
-                showItem.Checked = !showItem.Checked;
-                _gremlin.ShowHotSpot();
-            };
+            _disableHotspotsItem.Click += (s, e) => _gremlin.HotSpot();
+            _showHotspotsItem.Click += (s, e) => _gremlin.ShowHotSpot();
+            var gravity = enableGravity as ToolStripMenuItem;
             enableClickThrough.Click += (s, e) =>
             {
                 _gremlin.ToggleClickThrough();
@@ -235,6 +197,14 @@ public static class ConfigManager
                 _gremlin.ToggleGravity();  
             };
             _trayIcon.ContextMenuStrip = menu;
+            RefreshHotspotMenu();
+        }
+
+        public void RefreshHotspotMenu()
+        {
+            _disableHotspotsItem.Checked = _gremlin.HotspotsDisabled;
+            _showHotspotsItem.Checked = _gremlin.HotspotColorsRequested;
+            _showHotspotsItem.Enabled = !_gremlin.HotspotsDisabled;
         }
 
         public void CloseApp()

@@ -136,3 +136,5 @@ without `COLUMN` keep their ten-column layout.
 
 See [character-pack reliability](docs/character-pack-reliability.md) for causes,
 error behavior, automated coverage and limitations.
+
+Hotspot controls: [disable behavior, color preferences and tray synchronization](docs/hotspot-controls.md).
