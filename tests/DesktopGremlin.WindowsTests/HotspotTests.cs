@@ -40,7 +40,7 @@ internal static partial class Program
     {
         return Enumerable.Range(0, 5).Select(i => new Border
         {
-            Width = 40, Height = 40, Margin = new Thickness(i * 50, 0, 0, 0),
+            Name = "Region" + i, Width = 40, Height = 40, Margin = new Thickness(i * 50, 0, 0, 0),
             HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top
         }).ToArray();
     }
@@ -58,35 +58,48 @@ internal static partial class Program
             Settings.DisableHotspots = disabled;
             Settings.AllowColoredHotSpot = colored;
             Border[] regions = NewHotspotRegions();
-            var surface = new Border { Background = Brushes.White };
+            var surface = new Border { Name = "SpriteSurface", Background = Brushes.White };
             var grid = new Grid { Width = 250, Height = 50 };
             grid.Children.Add(surface);
             foreach (Border region in regions) grid.Children.Add(region);
-            grid.Measure(new Size(250, 50));
-            grid.Arrange(new Rect(0, 0, 250, 50));
             var controller = NewHotspotController(regions);
-            AssertHotspotState(grid, surface, regions, disabled, colored);
-            controller.ToggleHotspots();
-            AssertHotspotState(grid, surface, regions, !disabled, colored);
-            controller.ShowHotspots();
-            AssertHotspotState(grid, surface, regions, !disabled, !colored);
-            controller.ToggleHotspots();
-            AssertHotspotState(grid, surface, regions, disabled, !colored);
-            controller.ShowHotspots();
-            AssertHotspotState(grid, surface, regions, disabled, colored);
+            var host = new Window
+            {
+                Content = grid, Width = 250, Height = 50, WindowStyle = WindowStyle.None,
+                ShowInTaskbar = false, ShowActivated = false, Opacity = 0
+            };
+            try
+            {
+                host.Show();
+                AssertHotspotState(grid, surface, regions, disabled, colored);
+                controller.ToggleHotspots();
+                AssertHotspotState(grid, surface, regions, !disabled, colored);
+                controller.ShowHotspots();
+                AssertHotspotState(grid, surface, regions, !disabled, !colored);
+                controller.ToggleHotspots();
+                AssertHotspotState(grid, surface, regions, disabled, !colored);
+                controller.ShowHotspots();
+                AssertHotspotState(grid, surface, regions, disabled, colored);
+            }
+            finally { host.Close(); }
         }
     }
 
     private static void AssertHotspotState(Grid grid, Border surface, Border[] regions, bool disabled, bool colored)
     {
+        // Background changes invalidate WPF rendering/layout. Complete the same
+        // layout pass a displayed window performs before querying its visual hit tree.
+        grid.UpdateLayout();
         for (int i = 0; i < regions.Length; i++)
         {
             Assert(regions[i].IsEnabled == !disabled, "Every region has the intended enabled state");
             Assert(regions[i].IsHitTestVisible == !disabled, "Disabled regions cannot intercept underlying sprite input");
             Color expected = disabled ? Colors.Transparent : colored ? HotspotPalette[i] : Color.FromArgb(1, 0, 0, 0);
             Assert(((SolidColorBrush)regions[i].Background).Color == expected, "Configured and toggled colors use one palette; disabled overlays remain clear");
-            Assert(ReferenceEquals(grid.InputHitTest(new Point(i * 50 + 20, 20)), disabled ? surface : regions[i]),
-                "WPF routes each test point to the active hotspot or the underlying surface when disabled");
+            var hit = grid.InputHitTest(new Point(i * 50 + 20, 20)) as FrameworkElement;
+            Assert(ReferenceEquals(hit, disabled ? surface : regions[i]),
+                "WPF input target: disabled=" + disabled + ", colored=" + colored + ", region=" + i
+                + ", hit=" + (hit == null ? "null" : hit.Name));
         }
         Assert(Settings.DisableHotspots == disabled && Settings.AllowColoredHotSpot == colored,
             "Runtime flags match the actual controller state and saved color preference");
