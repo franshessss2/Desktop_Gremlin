@@ -3,6 +3,8 @@
 param([string]$ArchivePath, [string]$FixturePath)
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+# Windows PowerShell 5.1's per-chunk progress UI makes large CI downloads very slow.
+$ProgressPreference = 'SilentlyContinue'
 $repository = Split-Path $PSScriptRoot -Parent
 $repair = Join-Path $repository 'tools/Repair-GoldShipPack.ps1'
 $profile = Get-Content (Join-Path $repository 'pack-fixes/GoldShip-v4.0/profile.json') -Raw | ConvertFrom-Json
@@ -17,7 +19,7 @@ function Hash([string]$path) { (Get-FileHash -LiteralPath $path -Algorithm SHA25
 try {
     if (!$ArchivePath) {
         $ArchivePath = Join-Path $work 'TracenAcademy_v4.0.zip'
-        Invoke-WebRequest 'https://github.com/Kritzkingvoid/Desktop_Gremlin/releases/download/v4.0/TracenAcademy_v4.0.zip' -OutFile $ArchivePath -UseBasicParsing
+        Invoke-WebRequest 'https://github.com/Kritzkingvoid/Desktop_Gremlin/releases/download/v4.0/TracenAcademy_v4.0.zip' -OutFile $ArchivePath -UseBasicParsing -TimeoutSec 180
     }
     Assert ((Hash $ArchivePath) -eq $profile.source_archive_sha256) 'Pinned release archive changed.'
     $pack = Join-Path $work 'installation'
